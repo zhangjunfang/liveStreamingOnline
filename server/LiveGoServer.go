@@ -8,7 +8,6 @@ import (
 )
 import (
 	"github.com/zhangjunfang/liveStreamingOnline/server/lib/myhttp"
-
 	"github.com/zhangjunfang/liveStreamingOnline/server/lib/mywebsocket"
 )
 
@@ -29,11 +28,11 @@ func main() {
 
 	http.HandleFunc("/index", myhttp.Index)
 
-	var config = config.ServerHost + ":" + config.ServerPort
+	 myconfig:= config.ServerHost + ":" + config.ServerPort
 
-	if err := http.ListenAndServe(config, nil); err != nil {
-		logger.Println("LiveGoServer:", err)
-		logfile.Close()
+	if err := http.ListenAndServe(myconfig, nil); err != nil {
+		myhttp.Logger.Println("LiveGoServer:", err)
+		myhttp.Logfile.Close()
 	}
 
 }

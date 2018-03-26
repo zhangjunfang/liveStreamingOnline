@@ -15,11 +15,22 @@ import (
 	"math/big"
 	"os"
 )
-var username string="";
+var username string="女主播";
 var uzb string = "";
 
-var logfile, err = os.OpenFile(config.ServerLog, os.O_RDWR|os.O_CREATE, 0666)
-var logger = log.New(logfile, "\r\n", log.Ldate|log.Ltime|log.Llongfile)
+var Logfile *os.File
+
+var Logger *log.Logger
+
+func  init(){
+
+	Logfile, err := os.OpenFile(config.ServerLog, os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil{
+		return
+	}
+	Logger = log.New(Logfile, "\r\n", log.Ldate|log.Ltime|log.Llongfile)
+}
+
 
 type userinfo struct {
 	name   string
@@ -94,7 +105,7 @@ func Pwint(ws *mywebsocket.Conn) {
 		var err error
 		var reply string
 		if err = mywebsocket.Message.Receive(ws, &reply); err != nil {
-			logger.Println("LiveGoServer:", err)
+			Logger.Println("LiveGoServer:", err)
 			break
 		}
 		for k, v := range member {
@@ -108,7 +119,7 @@ func Pwint(ws *mywebsocket.Conn) {
 				msg, _ := json.Marshal(mymes)
 				if err = mywebsocket.Message.Send(v.conn, string(msg)); err != nil {
 					delete(member, k)
-					logger.Println("LiveGoServer:", err)
+					Logger.Println("LiveGoServer:", err)
 					break
 				}
 			} else {
@@ -122,7 +133,7 @@ func Pwint(ws *mywebsocket.Conn) {
 					member[k].userinfo.isself = true
 					if err = mywebsocket.Message.Send(ws, string(msg)); err != nil {
 						delete(member, k)
-						logger.Println("LiveGoServer:", err)
+						Logger.Println("LiveGoServer:", err)
 						break
 					}
 					//}

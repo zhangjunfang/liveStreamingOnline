@@ -6,7 +6,7 @@ import (
 )
 
 func Live(w http.ResponseWriter, r *http.Request) {
-	if username == "" {
+	if  username == "" {
 		http.Redirect(w, r, "/index", 301)
 	}
 	if r.Method == "GET" {
