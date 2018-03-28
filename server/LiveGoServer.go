@@ -31,7 +31,7 @@ func main() {
 	 myconfig:= config.ServerHost + ":" + config.ServerPort
 
 	if err := http.ListenAndServe(myconfig, nil); err != nil {
-		myhttp.Logger.Println("LiveGoServer:", err)
+		myhttp.Logger.Println("server:", err)
 		myhttp.Logfile.Close()
 	}
 
